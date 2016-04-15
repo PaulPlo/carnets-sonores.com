@@ -1,0 +1,49 @@
+// bower:scss
+// endbower
+
+// Variables
+@import "partials/base"; 
+
+// Partials
+@import "partials/reset";
+@import "partials/typography";
+@import "partials/ease";
+
+// Modules
+
+body {font-size: 14px ; }
+
+.slides-container {
+	
+	height: 100vh ; 
+
+	.slides-inner {
+		height: 100% ;
+		.slide {
+			float: left;
+			position: relative;
+			height: 80vh ; 
+			margin: 10vh 0 ; 
+			img { 
+				margin: 0 50px ;  
+				height: 100% ; 
+			}
+		}
+	}
+}
+
+.overlay {
+	position: fixed;
+	top: 0 ; bottom: 0 ; right: 0 ; left: 0 ; 
+
+	i {
+		font-size: 1.7em ; 
+		cursor: pointer;
+	}
+
+	.icon-volume-up, .icon-volume-off {
+		position: absolute;
+		bottom: 0 ; right: 5% ; 
+		line-height: 10vh ; 
+	}  
+}

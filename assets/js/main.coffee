@@ -15,7 +15,7 @@ $ ->
 		for slide in $('.slide') 
 			slidesInnerWidth += $(slide).width() + 10 ## TODO : FIX THIS SHIT 
 		$('.slides-inner').width(slidesInnerWidth)
-	), 300 
+	), 1000 
 	
 	$("body").mousewheel (event, delta) ->
 		event.preventDefault()

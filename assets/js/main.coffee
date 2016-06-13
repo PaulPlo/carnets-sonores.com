@@ -1,22 +1,20 @@
 $ 			= require 'jquery-browserify'
 mousewheel	= require('jquery-mousewheel')($)
 gsap 		= require 'gsap'
-classie 	= require('./lib/classie')
-svgLoader 	= require('./lib/svgLoader')
 modernizr 	= require('./lib/modernizr')
 
 #  VARS
 slidesInnerWidth = false
 audio = document.getElementById("main-sound")
-console.log(audio)
 
 $ ->
-	setTimeout ( ->
-		for slide in $('.slide') 
-			slidesInnerWidth += $(slide).width() + 10 ## TODO : FIX THIS SHIT 
-		$('.slides-inner').width(slidesInnerWidth)
-	), 1000 
-	
+
+	slidesInnerWidth = 0
+
+	$.getJSON("http://46.101.190.114/carnets-sonores/data.json", (data) ->
+		preload(data.imagesSources)
+	)
+
 	$("body").mousewheel (event, delta) ->
 		event.preventDefault()
 		this.scrollLeft -= (delta)
@@ -29,6 +27,17 @@ $ ->
 			$(this).removeClass().addClass('icon-volume-up')
 			fadeInSound()
 
+
+preload = (imageArray, index) ->
+	index = index || 0
+	if imageArray && imageArray.length > index
+		img = new Image
+		img.onload = ->
+			$('.slides-inner').append(img)
+			slidesInnerWidth += img.width 
+			$('.slides-inner').width(slidesInnerWidth)
+			preload(imageArray, index + 1)
+		img.src = "img/"+imageArray[index]
 
 fadeOutSound = ->
 	vol = audio.volume

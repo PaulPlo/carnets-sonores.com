@@ -9,11 +9,10 @@ module.exports =
 
   extensions: [
     browserify(files: 'assets/js/main.coffee', out: 'js/build.js'),
-    css_pipeline(files: 'assets/css/*.scss', out:'/css/main.css'),
+    css_pipeline(files: 'assets/css/*.scss', out:'css/main.css'),
     templates(base:'views/templates'),
     records(
-      datas_en: { file: 'locales/en.json' },
-      datas_fr: { file: 'locales/fr.json' }
+      datas: { file: 'locales/data.json' }
     )
   ]
 

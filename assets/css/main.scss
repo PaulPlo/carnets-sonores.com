@@ -19,15 +19,11 @@ body {font-size: 14px ; }
 
 	.slides-inner {
 		height: 100% ;
-		.slide {
-			float: left;
+		display: flex ; 
+		img {
 			position: relative;
 			height: 80vh ; 
-			margin: 10vh 0 ; 
-			img { 
-				margin: 0 50px ;  
-				height: 100% ; 
-			}
+			margin: 10vh 0 ;     
 		}
 	}
 }

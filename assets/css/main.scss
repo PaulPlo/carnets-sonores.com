@@ -11,12 +11,40 @@
 
 // Modules
 
-body {font-size: 14px ; }
+body {font-size: 14px ; font-family: 'gtwalsheim';}
+
+.intro-overlay {
+	position: absolute;
+	top: 0 ; left: 0 ; right: 0 ; bottom: 0 ; 
+	background-color: white ;
+	z-index: 10 ;
+
+	.intro-content {
+		position: absolute;
+		width: 50% ; 
+		min-width: 500px ; 
+		@include centered-align() ; 
+		p {font-size: 1.7em ; margin: 20px 0 ; text-align: center; }
+		p:first-of-type {margin-top : 50px ;}
+		p:last-of-type {margin-bottom : 50px ;}
+		.cta {
+			cursor: pointer;
+			display: block;
+			width: 150px ;
+			height: 40px ;
+			line-height: 40px ;
+			text-align: center;
+			text-transform: uppercase;
+			border: 1px solid black ;
+			margin : 0 auto ;
+		}
+	}
+}
 
 .slides-container {
 	
 	height: 100vh ; 
-
+	overflow-x: hidden;
 	.slides-inner {
 		height: 100% ;
 		display: flex ; 
@@ -29,10 +57,13 @@ body {font-size: 14px ; }
 }
 
 .overlay {
+	z-index: 10 ; 
 	position: fixed;
+	pointer-events : none;
 	top: 0 ; bottom: 0 ; right: 0 ; left: 0 ; 
 
 	i {
+		pointer-events : auto;
 		font-size: 1.7em ; 
 		cursor: pointer;
 	}

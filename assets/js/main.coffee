@@ -5,8 +5,10 @@ modernizr 	= require('./lib/modernizr')
 
 #  VARS
 slidesInnerWidth = 0
-audio = document.getElementById("main-sound")
-switchSounds = [15,23,34,44,52,64,74]
+audio = document.getElementById("sound-1")
+nextAudio = false
+switchSoundsPositions = [15,23,34,44,52,64,74]
+hasSwitched = false 
 first = true
 
 $ ->
@@ -26,9 +28,14 @@ $ ->
 		this.scrollLeft -= (delta)
 		
 		if(parseInt($('.switch-sound.next').position().left) < $("body").scrollLeft())
-			fadeOutSound() ; 
-
-		
+			if(hasSwitched)
+				audio = nextAudio
+			nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
+			nextSwitch = $('.switch-sound.next').nextAll('.switch-sound').first()
+			$('.switch-sound.next').removeClass("next")
+			nextSwitch.addClass("next")
+			switchSounds(audio, nextAudio)
+			hasSwitched = true 
 
 	$('.volume').on "click", (ev) ->
 		if $(this).hasClass('icon-volume-up')
@@ -45,10 +52,9 @@ preload = (imageArray, index, selectedSound) ->
 	if imageArray && imageArray.length > index
 		img = new Image
 
-		if($.inArray(index, switchSounds) > -1)
-			console.log(index) ; 
+		if($.inArray(index, switchSoundsPositions) > -1)
 			$(img).addClass("switch-sound")
-			$(img).attr("data-sound", selectedSound+".mp3")
+			$(img).attr("data-sound", "sound-"+selectedSound)
 			if first
 				$(img).addClass("next")
 				first = false
@@ -61,6 +67,7 @@ preload = (imageArray, index, selectedSound) ->
 		img.src = "img/"+imageArray[index]
 
 fadeOutSound = ->
+	next = next || false
 	vol = audio.volume
 	fadeoutInterval = setInterval ( ->
 		if (vol > 0)
@@ -68,8 +75,6 @@ fadeOutSound = ->
 			vol = Math.round(vol*100)/100
 			audio.volume = vol
 		else
-			audio.src = "audio/"+$('.switch-sound.next').attr('data-sound')
-			fadeInSound()
 			clearInterval(fadeoutInterval)
 	), 40
 
@@ -82,4 +87,26 @@ fadeInSound = ->
 			audio.volume = vol
 		else
 			clearInterval(fadeinInterval)
+	), 40
+
+switchSounds = (prev, next) ->
+	volPrev = prev.volume
+	fadeoutInterval = setInterval ( ->
+		if (volPrev > 0)
+			volPrev -= 0.05 
+			volPrev = Math.round(volPrev*100)/100
+			prev.volume = volPrev
+		else
+			clearInterval(fadeoutInterval) 
+			next.volume = 0
+			next.play()
+			volNext = 0 
+			fadeinInterval = setInterval ( ->
+				if (volNext < 1)
+					volNext += 0.05 
+					volNext = Math.round(volNext*100)/100
+					next.volume = volNext
+				else
+					clearInterval(fadeinInterval)
+			), 40
 	), 40

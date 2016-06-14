@@ -17,10 +17,10 @@ body {font-size: 14px ; font-family: 'gtwalsheim';}
 	position: absolute;
 	top: 0 ; left: 0 ; right: 0 ; bottom: 0 ; 
 	background-color: white ;
-	z-index: 10 ;
+	z-index: 10 ; 
 
 	.intro-content {
-		position: absolute;
+		position: absolute; 
 		width: 50% ; 
 		min-width: 500px ; 
 		@include centered-align() ; 

@@ -7,8 +7,7 @@ modernizr 	= require('./lib/modernizr')
 slidesInnerWidth = 0
 audio = document.getElementById("sound-1")
 nextAudio = false
-switchSoundsPositions = [15,23,34,44,52,64,74]
-hasSwitched = false 
+switchSoundsPositions = [15,23,34,44,52,64,74] 
 first = true
 
 $ ->
@@ -28,14 +27,33 @@ $ ->
 		this.scrollLeft -= (delta)
 		
 		if(parseInt($('.switch-sound.next').position().left) < $("body").scrollLeft())
-			if(hasSwitched)
-				audio = nextAudio
 			nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
-			nextSwitch = $('.switch-sound.next').nextAll('.switch-sound').first()
-			$('.switch-sound.next').removeClass("next")
-			nextSwitch.addClass("next")
 			switchSounds(audio, nextAudio)
-			hasSwitched = true 
+			audio = nextAudio
+			# Add next/prev class on switch imgs
+			currentSwitch = $('.switch-sound.next')
+			nextSwitch = $('.switch-sound.next').nextAll('.switch-sound').first()
+			prevSwitch = $('.switch-sound.next').prevAll('.switch-sound').first()
+			$('.switch-sound').removeClass("next").removeClass("current").removeClass("prev")
+			nextSwitch.addClass("next")
+			prevSwitch.addClass("prev")
+			currentSwitch.addClass("current")
+
+		if(parseInt($('.switch-sound.current').position().left) > $("body").scrollLeft())
+			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))
+			switchSounds(audio, prevAudio)
+			audio = prevAudio
+			# Add next/prev class on switch imgs
+			currentSwitch = $('.switch-sound.prev')
+			nextSwitch = $('.switch-sound.current')
+			prevSwitch = $('.switch-sound.prev').prevAll('.switch-sound').first()
+			$('.switch-sound').removeClass("next")
+			$('.switch-sound').removeClass("current")
+			$('.switch-sound').removeClass("prev")
+			nextSwitch.addClass("next")
+			prevSwitch.addClass("prev")
+			currentSwitch.addClass("current")
+
 
 	$('.volume').on "click", (ev) ->
 		if $(this).hasClass('icon-volume-up')
@@ -51,7 +69,9 @@ preload = (imageArray, index, selectedSound) ->
 	selectedSound = selectedSound || 2
 	if imageArray && imageArray.length > index
 		img = new Image
-
+		if index == 0
+			$(img).addClass("switch-sound current")
+			$(img).attr("data-sound", "sound-1")		
 		if($.inArray(index, switchSoundsPositions) > -1)
 			$(img).addClass("switch-sound")
 			$(img).attr("data-sound", "sound-"+selectedSound)
@@ -97,6 +117,7 @@ switchSounds = (prev, next) ->
 			volPrev = Math.round(volPrev*100)/100
 			prev.volume = volPrev
 		else
+			prev.pause()
 			clearInterval(fadeoutInterval) 
 			next.volume = 0
 			next.play()

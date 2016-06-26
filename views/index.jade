@@ -11,10 +11,7 @@ block content
 	div.intro-overlay
 		div.intro-content
 			img.logo(src="img/logo.jpg")
-			p Cette frise sonore et dessinée est le fruit d’un voyage de 3 semaines au Mexique, depuis la capitale jusqu’au golfe de la mer des caraïbes. 
-			p Pour embarquer, scrollez avec votre souris et utilisez un casque audio. 
-			p Bon voyage !
-			p Réalisation : Gala Vanson & Jimmy Boury
+			img.intro(src="img/intro.jpg")
 			span.cta.cta-start commencer
 
 	div.slides-container
@@ -23,7 +20,9 @@ block content
 	div.overlay
 		i.volume.icon-volume-up
 
-	audio#sound-1(autoplay loop preload)
+	audio#sound-0(autoplay loop preload)
+		source(src="audio/0.mp3" type="audio/mpeg")
+	audio#sound-1(loop preload)
 		source(src="audio/1.mp3" type="audio/mpeg")
 	audio#sound-2(preload loop)
 		source(src="audio/2.mp3" type="audio/mpeg")

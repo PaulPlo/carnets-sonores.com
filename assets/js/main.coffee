@@ -5,9 +5,9 @@ modernizr 	= require('./lib/modernizr')
 
 #  VARS
 slidesInnerWidth = 0
-audio = document.getElementById("sound-1")
+audio = document.getElementById("sound-0")
 nextAudio = false
-switchSoundsPositions = [15,23,34,44,52,64,74] 
+switchSoundsPositions = [2,16,24,35,45,53,65,71,76,83] 
 first = true
 
 $ ->
@@ -26,18 +26,20 @@ $ ->
 		event.preventDefault()
 		this.scrollLeft -= (delta)
 		
-		if(parseInt($('.switch-sound.next').position().left) < $("body").scrollLeft())
-			nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
-			switchSounds(audio, nextAudio)
-			audio = nextAudio
-			# Add next/prev class on switch imgs
-			currentSwitch = $('.switch-sound.next')
-			nextSwitch = $('.switch-sound.next').nextAll('.switch-sound').first()
-			prevSwitch = $('.switch-sound.next').prevAll('.switch-sound').first()
-			$('.switch-sound').removeClass("next").removeClass("current").removeClass("prev")
-			nextSwitch.addClass("next")
-			prevSwitch.addClass("prev")
-			currentSwitch.addClass("current")
+		if $('.switch-sound.next').length
+			if(parseInt($('.switch-sound.next').position().left) < $("body").scrollLeft())
+				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
+				console.log(nextAudio)
+				switchSounds(audio, nextAudio)
+				audio = nextAudio
+				# Add next/prev class on switch imgs
+				currentSwitch = $('.switch-sound.next')
+				nextSwitch = $('.switch-sound.next').nextAll('.switch-sound').first()
+				prevSwitch = $('.switch-sound.next').prevAll('.switch-sound').first()
+				$('.switch-sound').removeClass("next").removeClass("current").removeClass("prev")
+				nextSwitch.addClass("next")
+				prevSwitch.addClass("prev")
+				currentSwitch.addClass("current")
 
 		if(parseInt($('.switch-sound.current').position().left) > $("body").scrollLeft())
 			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))
@@ -66,7 +68,7 @@ $ ->
 
 preload = (imageArray, index, selectedSound) ->
 	index = index || 0
-	selectedSound = selectedSound || 2
+	selectedSound = selectedSound || 1
 	if imageArray && imageArray.length > index
 		img = new Image
 		if index == 0

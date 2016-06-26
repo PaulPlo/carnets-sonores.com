@@ -21,12 +21,15 @@ body {font-size: 14px ; font-family: 'gtwalsheim';}
 
 	.intro-content {
 		position: absolute; 
-		width: 50% ; 
+		width: 100% ; 
 		min-width: 500px ; 
 		@include centered-align() ; 
 		p {font-size: 1.7em ; margin: 20px 0 ; text-align: center; }
 		p:first-of-type {margin-top : 50px ;}
 		p:last-of-type {margin-bottom : 50px ;}
+		img {max-width: 70% ; margin: 0 auto ; display: block;}
+		img.logo {margin-bottom: 20px ; }
+		img.intro {margin-bottom: 40px ; }
 		.cta {
 			cursor: pointer;
 			display: block;

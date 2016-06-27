@@ -24,12 +24,26 @@ body {font-size: 14px ; font-family: 'gtwalsheim';}
 		width: 100% ; 
 		min-width: 500px ; 
 		@include centered-align() ; 
-		p {font-size: 1.7em ; margin: 20px 0 ; text-align: center; }
-		p:first-of-type {margin-top : 50px ;}
-		p:last-of-type {margin-bottom : 50px ;}
 		img {max-width: 70% ; margin: 0 auto ; display: block;}
 		img.logo {margin-bottom: 20px ; }
-		img.intro {margin-bottom: 40px ; }
+		img.intro {margin-bottom: 20px ; }
+		.cta-container {
+			position: relative;
+			width: 200px ;
+			height: 80px ;
+			margin: 0 auto ; 
+			text-align: center ; 
+			img {
+				cursor: pointer;
+				position: absolute;
+				top: 0 ; left: 0 ; right: 0 ; bottom : 0 ; 
+				&.cta-start-on {visibility: hidden;}
+			}
+			&:hover {
+				img.cta-start {visibility: hidden;}
+				img.cta-start-on {visibility: visible;}
+			}
+		}
 		.cta {
 			cursor: pointer;
 			display: block;

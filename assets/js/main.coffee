@@ -7,7 +7,7 @@ modernizr 	= require('./lib/modernizr')
 slidesInnerWidth = 0
 audio = document.getElementById("sound-0")
 nextAudio = false
-switchSoundsPositions = [2,16,24,35,45,53,65,71,76,83] 
+switchSoundsPositions = [2,16,27,38,48,56,68,74,78,85] 
 first = true
 
 $ ->
@@ -16,11 +16,13 @@ $ ->
 		preload(data.imagesSources)
 	)
 
-	$(".cta-start").on "click", (ev) ->
+	$(".cta-start-on").on "click", (ev) ->
 		$('.slides-container').css('overflow', 'visible')
 		tlStart = new TimelineLite
-		tlStart.to($('.intro-overlay'), 0.3, {autoAlpha : 0, ease:Quad.easeOut}) ;
-		tlStart.fromTo($('.slides-container'), 0.3, {autoAlpha : 0}, {autoAlpha:1, ease:Quad.easeOut}) ; 
+		tlStart.to($('.intro-overlay'), 0.3, {autoAlpha : 0, ease:Quad.easeOut})
+		tlStart.addLabel("showSlider")
+		tlStart.fromTo($('.slides-container'), 0.3, {autoAlpha : 0}, {autoAlpha:1, ease:Quad.easeOut}, "showSlider")
+		tlStart.fromTo($('.slides-container'), 0.7, {x :50}, {x:0, ease:Quad.easeOut}, "showSlider") 
 
 	$("body").mousewheel (event, delta) ->
 		event.preventDefault()
@@ -81,12 +83,12 @@ preload = (imageArray, index, selectedSound) ->
 				$(img).addClass("next")
 				first = false
 			selectedSound++
+		img.src = "img/"+imageArray[index]
 		img.onload = ->	
 			$('.slides-inner').append(img)
-			slidesInnerWidth += img.width 
+			slidesInnerWidth += img.width + 20 # adding img margin value
 			$('.slides-inner').width(slidesInnerWidth)
 			preload(imageArray, index + 1, selectedSound)
-		img.src = "img/"+imageArray[index]
 
 fadeOutSound = ->
 	next = next || false

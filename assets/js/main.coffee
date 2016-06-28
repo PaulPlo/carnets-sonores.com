@@ -24,12 +24,12 @@ $ ->
 		tlStart.fromTo($('.slides-container'), 0.3, {autoAlpha : 0}, {autoAlpha:1, ease:Quad.easeOut}, "showSlider")
 		tlStart.fromTo($('.slides-container'), 0.7, {x :50}, {x:0, ease:Quad.easeOut}, "showSlider") 
 
-	$("body").mousewheel (event, delta) ->
-		event.preventDefault()
-		this.scrollLeft -= (delta)
+	$("html, body").mousewheel (event) ->
+		event.preventDefault();
+		this.scrollLeft -= (event.deltaY*1.5)
 		
 		if $('.switch-sound.next').length
-			if(parseInt($('.switch-sound.next').position().left) < $("body").scrollLeft())
+			if(parseInt($('.switch-sound.next').position().left) < $("html, body").scrollLeft())
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
 				switchSounds(audio)
 				audio = nextAudio
@@ -45,7 +45,7 @@ $ ->
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
 				$(nextAudio).attr('preload', 'auto')
 
-		if(parseInt($('.switch-sound.current').position().left) > $("body").scrollLeft())
+		if(parseInt($('.switch-sound.current').position().left) > $("html, body").scrollLeft())
 			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))
 			switchSounds(audio)
 			audio = prevAudio

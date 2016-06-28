@@ -31,8 +31,7 @@ $ ->
 		if $('.switch-sound.next').length
 			if(parseInt($('.switch-sound.next').position().left) < $("body").scrollLeft())
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
-				console.log(nextAudio)
-				switchSounds(audio, nextAudio)
+				switchSounds(audio)
 				audio = nextAudio
 				# Add next/prev class on switch imgs
 				currentSwitch = $('.switch-sound.next')
@@ -45,7 +44,7 @@ $ ->
 
 		if(parseInt($('.switch-sound.current').position().left) > $("body").scrollLeft())
 			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))
-			switchSounds(audio, prevAudio)
+			switchSounds(audio)
 			audio = prevAudio
 			# Add next/prev class on switch imgs
 			currentSwitch = $('.switch-sound.prev')
@@ -75,7 +74,7 @@ preload = (imageArray, index, selectedSound) ->
 		img = new Image
 		if index == 0
 			$(img).addClass("switch-sound current")
-			$(img).attr("data-sound", "sound-1")		
+			$(img).attr("data-sound", "sound-0")		
 		if($.inArray(index, switchSoundsPositions) > -1)
 			$(img).addClass("switch-sound")
 			$(img).attr("data-sound", "sound-"+selectedSound)
@@ -113,7 +112,7 @@ fadeInSound = ->
 			clearInterval(fadeinInterval)
 	), 40
 
-switchSounds = (prev, next) ->
+switchSounds =  (prev) ->
 	volPrev = prev.volume
 	fadeoutInterval = setInterval ( ->
 		if (volPrev > 0)
@@ -123,6 +122,7 @@ switchSounds = (prev, next) ->
 		else
 			prev.pause()
 			clearInterval(fadeoutInterval) 
+			next = document.getElementById($('.switch-sound.current').attr('data-sound'))
 			next.volume = 0
 			next.play()
 			volNext = 0 

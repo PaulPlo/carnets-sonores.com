@@ -41,6 +41,9 @@ $ ->
 				nextSwitch.addClass("next")
 				prevSwitch.addClass("prev")
 				currentSwitch.addClass("current")
+				# preload next sound to play
+				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
+				$(nextAudio).attr('preload', 'auto')
 
 		if(parseInt($('.switch-sound.current').position().left) > $("body").scrollLeft())
 			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))

@@ -17,6 +17,7 @@ $ ->
 	)
 
 	$(".cta-start-on").on "click", (ev) ->
+		audio.play()
 		$('.slides-container').css('overflow', 'visible')
 		tlStart = new TimelineLite
 		tlStart.to($('.intro-overlay'), 0.3, {autoAlpha : 0, ease:Quad.easeOut})
@@ -28,10 +29,11 @@ $ ->
 		event.preventDefault();
 		this.scrollLeft -= (event.deltaY*1.5)
 		
+		scrollLeftVal = $("body").scrollLeft()
+		if scrollLeftVal == 0 # fix for firefox
+			scrollLeftVal = $("html, body").scrollLeft()
+		
 		if $('.switch-sound.next').length
-			scrollLeftVal = $("body").scrollLeft()
-			if scrollLeftVal == 0 # fix for firefox
-				scrollLeftVal = $("html, body").scrollLeft()
 			if(parseInt($('.switch-sound.next').position().left) < scrollLeftVal)
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
 				switchSounds(audio)

@@ -5,6 +5,7 @@ modernizr 	= require('./lib/modernizr')
 
 #  VARS
 slidesInnerWidth = 0
+imgsWidth = 0
 audio = document.getElementById("sound-0")
 nextAudio = false
 switchSoundsPositions = [2,16,27,38,48,56,68,74,78,85] 
@@ -32,9 +33,48 @@ $ ->
 		scrollLeftVal = $("body").scrollLeft()
 		if scrollLeftVal == 0 # fix for firefox
 			scrollLeftVal = $("html, body").scrollLeft()
-		
+
 		if $('.switch-sound.next').length
 			if(parseInt($('.switch-sound.next').position().left) < scrollLeftVal)
+				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
+				switchSounds(audio)
+				audio = nextAudio
+				# Add next/prev class on switch imgs
+				currentSwitch = $('.switch-sound.next')
+				nextSwitch = $('.switch-sound.next').nextAll('.switch-sound').first()
+				prevSwitch = $('.switch-sound.next').prevAll('.switch-sound').first()
+				$('.switch-sound').removeClass("next").removeClass("current").removeClass("prev")
+				nextSwitch.addClass("next")
+				prevSwitch.addClass("prev")
+				currentSwitch.addClass("current")
+				# preload next sound to play
+				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
+				$(nextAudio).attr('preload', 'auto')
+
+		if(parseInt($('.switch-sound.current').position().left) > scrollLeftVal)
+			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))
+			switchSounds(audio)
+			audio = prevAudio
+			# Add next/prev class on switch imgs
+			currentSwitch = $('.switch-sound.prev')
+			nextSwitch = $('.switch-sound.current')
+			prevSwitch = $('.switch-sound.prev').prevAll('.switch-sound').first()
+			$('.switch-sound').removeClass("next")
+			$('.switch-sound').removeClass("current")
+			$('.switch-sound').removeClass("prev")
+			nextSwitch.addClass("next")
+			prevSwitch.addClass("prev")
+			currentSwitch.addClass("current")
+
+	$("html, body").on "touchend", (event) ->
+
+		scrollLeftVal = window.pageXOffset
+		console.log "scrollpos : "+scrollLeftVal
+		console.log "next position : "+$('.switch-sound.next').attr("data-offset")
+
+		if $('.switch-sound.next').length
+			if(parseInt($('.switch-sound.next').attr("data-offset")) < scrollLeftVal)
+				console.log("ok")
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
 				switchSounds(audio)
 				audio = nextAudio
@@ -86,6 +126,7 @@ preload = (imageArray, index, selectedSound) ->
 		if($.inArray(index, switchSoundsPositions) > -1)
 			$(img).addClass("switch-sound")
 			$(img).attr("data-sound", "sound-"+selectedSound)
+			$(img).attr("data-offset", imgsWidth)
 			if first
 				$(img).addClass("next")
 				first = false
@@ -94,6 +135,7 @@ preload = (imageArray, index, selectedSound) ->
 		img.onload = ->	
 			$('.slides-inner').append(img)
 			slidesInnerWidth += img.width + 20 # adding img margin value
+			imgsWidth += $(img).width() + 20
 			$('.slides-inner').width(slidesInnerWidth)
 			preload(imageArray, index + 1, selectedSound)
 
@@ -128,11 +170,18 @@ switchSounds =  (prev) ->
 			volPrev = Math.round(volPrev*100)/100
 			prev.volume = volPrev
 		else
-			prev.pause()
 			clearInterval(fadeoutInterval) 
 			next = document.getElementById($('.switch-sound.current').attr('data-sound'))
 			next.volume = 0
-			next.play()
+			if Modernizr.touchevents
+				$("html, body").on "touchstart", (event) ->
+					prev.pause()
+
+					next.play()
+					$(this).unbind("touchstart")
+			else
+				prev.pause() ; 
+				next.play()
 			volNext = 0 
 			fadeinInterval = setInterval ( ->
 				if (volNext < 1)

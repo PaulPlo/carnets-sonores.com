@@ -76,7 +76,7 @@ $ ->
 			if(parseInt($('.switch-sound.next').attr("data-offset")) < scrollLeftVal)
 				console.log("ok")
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
-				switchSounds(audio)
+				switchSoundsTouch(audio, nextAudio)
 				audio = nextAudio
 				# Add next/prev class on switch imgs
 				currentSwitch = $('.switch-sound.next')
@@ -92,7 +92,7 @@ $ ->
 
 		if(parseInt($('.switch-sound.current').position().left) > scrollLeftVal)
 			prevAudio = document.getElementById($('.switch-sound.prev').attr('data-sound'))
-			switchSounds(audio)
+			switchSoundsTouch(audio, prevAudio)
 			audio = prevAudio
 			# Add next/prev class on switch imgs
 			currentSwitch = $('.switch-sound.prev')
@@ -173,15 +173,8 @@ switchSounds =  (prev) ->
 			clearInterval(fadeoutInterval) 
 			next = document.getElementById($('.switch-sound.current').attr('data-sound'))
 			next.volume = 0
-			if Modernizr.touchevents
-				$("html, body").on "touchstart", (event) ->
-					prev.pause()
-
-					next.play()
-					$(this).unbind("touchstart")
-			else
-				prev.pause() ; 
-				next.play()
+			prev.pause() ; 
+			next.play()
 			volNext = 0 
 			fadeinInterval = setInterval ( ->
 				if (volNext < 1)
@@ -192,3 +185,9 @@ switchSounds =  (prev) ->
 					clearInterval(fadeinInterval)
 			), 40
 	), 40
+
+switchSoundsTouch = (prev, next) ->
+	$("html, body").on "touchstart", (event) ->
+		prev.pause()
+		next.play()
+		$(this).unbind("touchstart")			

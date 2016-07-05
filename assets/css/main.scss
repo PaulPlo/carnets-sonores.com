@@ -13,6 +13,20 @@
 
 body {font-size: 14px ;}
 
+.orientation-overlay {
+	display: none;
+	width: 100% ; 
+	height: 100vh ; 
+	position: relative;
+	background-color: white ; 
+	z-index: 50 ; 
+	img {
+		max-width: 100% ; 
+		position: absolute;
+		@include centered-align() ; 
+	}
+}
+
 .intro-overlay {
 	position: absolute;
 	top: 0 ; left: 0 ; right: 0 ; bottom: 0 ; 
@@ -89,4 +103,10 @@ body {font-size: 14px ;}
 		height: 6vh ; min-height: 25px ;  
 	}  
 	.icon-volume-off {visibility: hidden;}
+}
+
+@media only screen and (max-device-width : 768px) and (orientation : portrait) {
+	.orientation-overlay {
+		display: block;
+	}
 }

@@ -16,7 +16,7 @@ hasSound = true
 $ ->
 
 	if Modernizr.touchevents
-		$('.overlay').css("display", "none")
+		$('.volume').css("display", "none")
 		$('.tuto').attr("src", "img/tuto-tablette.gif")	
 	
 	$.getJSON("locales/data.json", (data) ->
@@ -84,7 +84,6 @@ $ ->
 
 		if $('.switch-sound.next').length
 			if(parseInt($('.switch-sound.next').attr("data-offset")) < scrollLeftVal)
-				console.log("ok")
 				nextAudio = document.getElementById($('.switch-sound.next').attr('data-sound'))
 				switchSoundsTouch(audio, nextAudio)
 				audio = nextAudio

@@ -12,8 +12,14 @@ block content
 		div.intro-content
 			img.logo(src="img/logo.jpg")
 			div.flex
-				img.intro(src="img/intro.jpg")
+				div.intro-container
+					img.intro-desktop(src="img/presentation-ordi.jpg")
+					img.intro-tablette(src="img/presentation-tablette.jpg")
+				div.tuto-container
+					img.tuto-desktop(src="img/scroll-track.gif")
+					img.tuto-touch(src="img/scroll-tab.gif")
 				div.cta-container
+					img.loading(src="img/chargement.gif")
 					img.cta-start(src="img/vamos.jpg")
 					img.cta-start-on(src="img/vamos_on.jpg")
 
@@ -21,7 +27,8 @@ block content
 		div.slides-inner
 
 	div.overlay
-		i.volume.icon-volume-up
+		img.volume.icon-volume-on(src="img/son-on.jpg")
+		img.volume.icon-volume-off(src="img/son-off.jpg")
 
 	audio#sound-0(autoplay loop preload)
 		source(src="audio/0.mp3" type="audio/mpeg")

@@ -10,9 +10,18 @@ audio = document.getElementById("sound-0")
 nextAudio = false
 switchSoundsPositions = [2,16,27,38,48,56,68,74,78,85] 
 first = true
+scrollable = false 
+hasSound = true
 
 $ ->
 
+	if Modernizr.touchevents
+		$('.intro-desktop').css('display', 'none')
+		$('.intro-tablette').css('display', 'block')
+		$('.tuto-desktop').css('display', 'none')
+		$('.tuto-touch').css('display', 'block')
+		$('.overlay').css("display", "none")	
+	
 	$.getJSON("http://46.101.190.114/carnets-sonores/data.json", (data) ->
 		preload(data.imagesSources)
 	)
@@ -24,10 +33,15 @@ $ ->
 		tlStart.to($('.intro-overlay'), 0.3, {autoAlpha : 0, ease:Quad.easeOut})
 		tlStart.addLabel("showSlider")
 		tlStart.fromTo($('.slides-container'), 0.3, {autoAlpha : 0}, {autoAlpha:1, ease:Quad.easeOut}, "showSlider")
-		tlStart.fromTo($('.slides-container'), 0.7, {x :50}, {x:0, ease:Quad.easeOut}, "showSlider") 
+		tlStart.fromTo($('.slides-container'), 0.5, {x :50}, {x:0, ease:Quad.easeOut}, "showSlider")
+		tlStart.add(->
+			scrollable = true
+		)
 
 	$("html, body").mousewheel (event) ->
 		event.preventDefault();
+		if(!scrollable)
+			return
 		this.scrollLeft -= (event.deltaY*1.5)
 		
 		scrollLeftVal = $("body").scrollLeft()
@@ -67,10 +81,9 @@ $ ->
 			currentSwitch.addClass("current")
 
 	$("html, body").on "touchend", (event) ->
-
+		if(!scrollable)
+			return
 		scrollLeftVal = window.pageXOffset
-		console.log "scrollpos : "+scrollLeftVal
-		console.log "next position : "+$('.switch-sound.next').attr("data-offset")
 
 		if $('.switch-sound.next').length
 			if(parseInt($('.switch-sound.next').attr("data-offset")) < scrollLeftVal)
@@ -107,13 +120,15 @@ $ ->
 
 
 	$('.volume').on "click", (ev) ->
-		if $(this).hasClass('icon-volume-up')
-			$(this).removeClass().addClass('icon-volume-off')
+		$(this).css("visibility", "hidden")
+		if $(this).hasClass('icon-volume-on')
+			$('.icon-volume-off').css("visibility", 'visible')
 			fadeOutSound()
+			hasSound = false 
 		else
-			$(this).removeClass().addClass('icon-volume-up')
+			$('.icon-volume-on').css("visibility", 'visible')
 			fadeInSound()
-
+			hasSound = true
 
 preload = (imageArray, index, selectedSound) ->
 	index = index || 0
@@ -128,6 +143,10 @@ preload = (imageArray, index, selectedSound) ->
 			$(img).attr("data-sound", "sound-"+selectedSound)
 			$(img).attr("data-offset", imgsWidth)
 			if first
+				tlLoaded = new TimelineLite()
+				tlLoaded.to($('.loading'), 0.4, {scale : 0, autoAlpha : 0, ease:Expo.easeOut})
+				tlLoaded.fromTo($('.cta-start'), 0.4, {scale : 0}, {scale : 1, autoAlpha : 1, ease:Expo.easeOut})
+				$('.cta-start').addClass("active")
 				$(img).addClass("next")
 				first = false
 			selectedSound++
@@ -177,7 +196,7 @@ switchSounds =  (prev) ->
 			next.play()
 			volNext = 0 
 			fadeinInterval = setInterval ( ->
-				if (volNext < 1)
+				if (volNext < 1 && hasSound)
 					volNext += 0.05 
 					volNext = Math.round(volNext*100)/100
 					next.volume = volNext

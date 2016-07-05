@@ -28,19 +28,10 @@ body {font-size: 14px ;}
 		.flex {display: flex ; align-items : center; justify-content : space-between;}
 		
 		img.logo {margin-bottom: 0px ; width: 100% ;  }
-		.intro-container {
-			height: 100% ; 
-			width: 60% ;
-			.intro-tablette {display: none;}
-		}
-		.tuto-container {
-			img {width: 70% ; margin : 0 auto;}
-			.tuto-touch {display: none;}
-
-		}
+		img.intro {width: 75%}
 		.cta-container {
 			position: relative;
-			width: 140px ;
+			width: 200px ;
 			height: 80px ; 
 			text-align: center ; 
 			img {
@@ -61,6 +52,14 @@ body {font-size: 14px ;}
 	
 	height: 100vh ; 
 	overflow-x: hidden;
+
+	.tuto {
+		position: absolute;
+		bottom : 10vh; 
+		left: 60vw ; 
+		z-index: 5;
+		max-width: 20vw ; 
+	}
 	.slides-inner {
 		height: 100% ;
 		display: flex ; 

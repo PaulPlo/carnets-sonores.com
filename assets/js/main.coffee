@@ -16,13 +16,10 @@ hasSound = true
 $ ->
 
 	if Modernizr.touchevents
-		$('.intro-desktop').css('display', 'none')
-		$('.intro-tablette').css('display', 'block')
-		$('.tuto-desktop').css('display', 'none')
-		$('.tuto-touch').css('display', 'block')
-		$('.overlay').css("display", "none")	
+		$('.overlay').css("display", "none")
+		$('.tuto').attr("src", "img/tuto-tablette.gif")	
 	
-	$.getJSON("http://46.101.190.114/carnets-sonores/data.json", (data) ->
+	$.getJSON("locales/data.json", (data) ->
 		preload(data.imagesSources)
 	)
 
@@ -151,6 +148,8 @@ preload = (imageArray, index, selectedSound) ->
 				first = false
 			selectedSound++
 		img.src = "img/"+imageArray[index]
+		if index == 0 && Modernizr.touchevents
+			img.src = "img/titre-tablette.jpg"
 		img.onload = ->	
 			$('.slides-inner').append(img)
 			slidesInnerWidth += img.width + 20 # adding img margin value

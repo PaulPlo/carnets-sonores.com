@@ -54,7 +54,7 @@ body {font-size: 14px ;}
 				&.cta-start, &.cta-start-on {visibility: hidden; cursor: pointer;}
 				&.cta-start.active {visibility: visible;}
 			}
-			&:hover {
+			&.loaded:hover {
 				img.cta-start.active {visibility: hidden;}
 				img.cta-start-on {visibility: visible;}
 			}

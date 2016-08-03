@@ -142,6 +142,7 @@ preload = (imageArray, index, selectedSound) ->
 				tlLoaded = new TimelineLite()
 				tlLoaded.to($('.loading'), 0.4, {scale : 0, autoAlpha : 0, ease:Expo.easeOut})
 				tlLoaded.fromTo($('.cta-start'), 0.4, {scale : 0}, {scale : 1, autoAlpha : 1, ease:Expo.easeOut})
+				$(".cta-container").addClass("loaded") ; 
 				$('.cta-start').addClass("active")
 				$(img).addClass("next")
 				first = false

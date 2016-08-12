@@ -1,4 +1,4 @@
-# Mexico
+# Carnets Sonores - Mexique
 
 Cette frise sonore et dessinée est le fruit d’un voyage de 3 semaines au Mexique, depuis la capitale jusqu’au golfe de la mer des Caraïbes. Illustration de Gala Vanson, musiques de Jimmy Boury.
 
